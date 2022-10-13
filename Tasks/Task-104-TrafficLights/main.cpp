@@ -9,29 +9,36 @@ DigitalOut green(TRAF_GRN1_PIN,0);
 
 LCD_16X2_DISPLAY lcd;
 
+
 int main()
 {
-    lcd.puts("RED");
-    wait_us(1000000);
-
-    amber = 1;
-    lcd.cls();
-    lcd.puts("Amber");
-    wait_us(1000000);
-
-    green = 1;
-    lcd.cls();
-    lcd.puts("Green");    
-    wait_us(1000000);
-
-    lcd.cls();
-    lcd.puts("TASK-104");
-
-    while (true)
+    while (true) 
     {
-        red = !red;
-        amber = !amber;
-        green = !green;
-        wait_us(WAIT_TIME_MS * 1000);
+        green = 0;
+        red = 1;
+        amber = 0;
+        lcd.puts("RED");
+        wait_us(10000000);
+        lcd.cls();
+
+        for (int x = 0; x < 4; x++) {
+            red = 0;
+            amber = 1;
+            lcd.puts("Yellow");
+            wait_us(1000000);
+            amber = 0;
+            wait_us(1000000);
+            lcd.cls();
+        }
+
+
+        green = 1;
+        amber = 0;
+        red = 0;
+        lcd.cls();
+        lcd.puts("Green");
+        wait_us(2000000);
+        lcd.cls();
     }
+
 }

@@ -1,48 +1,46 @@
 #include "mbed.h"
-
-//All Led ON when the code starts
-DigitalOut redLED(PC_2,1);
-DigitalOut yellowLED(PC_3,1);
-DigitalOut greenLED(PC_6,1);
+#include "uop_msb.h"
+#include <cstdio>
 
 
+
+
+// main() runs in its own thread in the OS
 int main()
 {
-    //1s pause to show all LEDs are working
-    wait_us(1000000);  
 
-    //Reset
-    yellowLED = 0;
-    greenLED = 0;
 
     while (true) {
-        //Red
-        redLED = 1;
+        // check that light turn on
+        DigitalOut red(PC_2, 1);
+        DigitalOut yellow(PC_3, 1);
+        DigitalOut green(PC_6, 1);
+
+        wait_us(1000000);
+        red = 0;
+        green = 0;
+        yellow = 0;
+        wait_us(1000000);
+
+        red = 1;
         wait_us(2000000);
-
-        //Red+Yellow
-        redLED = 1;
-        yellowLED = 1;
-        wait_us(2000000);    
-
-        //Green
-        redLED = 0;
-        yellowLED = 0;
-        greenLED = 1;
+        yellow = 1;
         wait_us(2000000);
+        red = 0;
+        yellow = 0;
+        green = 1;
+        wait_us(2000000);
+        green = 0;
 
-        //Flash the yellow
-        greenLED = 0;
-        int count = 0;
-        while (count < 4) {
-            yellowLED = 1;
-            wait_us(250000);
-            yellowLED = 0;
-            wait_us(250000);   
-            count = count + 1;     
+        int flash = 0;
+        while(flash < 4) {
+            yellow = 1;
+            wait_us(1000000);
+            yellow = 0;
+            wait_us(1000000);
+            flash = flash + 1;
         }
 
-        //The whole routine now repeats
 
     }
 }
